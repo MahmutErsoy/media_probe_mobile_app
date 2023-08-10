@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -12,10 +14,10 @@ class PostService {
       final response = await _dio.get('i5U0k05a2ZwXJKoID0P5zLeKxkEvkpBG');
 
       if (response.statusCode == HttpStatus.ok) {
-        final _datas = response.data;
+        final datas = response.data;
 
-        if (_datas.containsKey('results')) {
-          final results = _datas['results'];
+        if (datas.containsKey('results')) {
+          final results = datas['results'];
 
           return (results as List<dynamic>).map((e) => Result.fromJson(e)).toList();
         }

@@ -9,7 +9,6 @@ class ColorConstants {
   Color gray = const Color(0xff908e8e);
   Color jungleGreen = const Color(0xff25AE87);
   Color black = const Color(0xff000000);
-  Color lowBlack = const Color(0xff00000000);
   Color gallery = const Color(0xffEFEFEF);
   Color texasRose = const Color(0xffFDAE57);
   Color codGray = const Color(0xff090909);

@@ -1,11 +1,10 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/base/base_view.dart';
 import '../../core/models/NY_times_model.dart';
-import '../../core/repository/NY_times_repository.dart';
-import '../detail/detail_view.dart';
+import '../../core/repository/ny_times_repository.dart';
 import 'home_view_model.dart';
+import 'home_widget.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -16,15 +15,12 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   List<Result>? _items;
-  late final Dio _dio;
-  final _baseUrl = 'https://api.nytimes.com/svc/mostpopular/v2/viewed/7.json?api-key=';
 
   late final PostService _postService;
 
   @override
   void initState() {
     super.initState();
-    _dio = Dio(BaseOptions(baseUrl: _baseUrl));
     _postService = PostService();
     fetchPostItems();
   }
@@ -88,72 +84,9 @@ class _HomeViewState extends State<HomeView> {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   itemCount: _items?.length ?? 0,
                   itemBuilder: (context, index) {
-                    return _PostCard(model: _items?[index]);
+                    return PostCard(model: _items?[index]);
                   },
                 )),
-    );
-  }
-}
-
-class _PostCard extends StatelessWidget {
-  const _PostCard({
-    super.key,
-    required Result? model,
-  }) : _model = model;
-
-  final Result? _model;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Colors.blue[700],
-      margin: const EdgeInsets.only(
-        bottom: 20,
-      ),
-      child: ListTile(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailView(model: _model!),
-              ),
-            );
-          },
-          leading: const CircleAvatar(
-            backgroundColor: Colors.grey,
-          ),
-          title: Text(
-            _model?.abstract ?? 'aa',
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          subtitle: Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Wrap(
-              children: [
-                Text(
-                  _model?.byline ?? 'kim yazdi la bunu',
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.date_range_outlined),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      _model?.publishedDate ?? 'aa',
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          trailing: const Icon(
-            Icons.arrow_forward_ios_outlined,
-          )),
     );
   }
 }

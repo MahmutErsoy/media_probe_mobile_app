@@ -30,6 +30,7 @@ class DetailView extends StatelessWidget {
               Text(
                 model.title ?? '',
                 style: const TextStyle(
+                  color: Colors.black,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -39,7 +40,7 @@ class DetailView extends StatelessWidget {
                 "By: ${model.byline ?? 'Unknown'}",
                 style: const TextStyle(
                   fontSize: 16,
-                  color: Colors.grey,
+                  color: Colors.black,
                 ),
               ),
               const SizedBox(height: 10),
@@ -47,21 +48,26 @@ class DetailView extends StatelessWidget {
                 "Published Date: ${model.publishedDate ?? ''}",
                 style: const TextStyle(
                   fontSize: 16,
-                  color: Colors.grey,
+                  color: Colors.black,
                 ),
               ),
               const SizedBox(height: 20),
               if (model.media != null && model.media!.isNotEmpty)
-                Image.network(
-                  model.media![0].mediaMetadata?[0].url ?? '',
-                  height: 150,
-                  width: 150,
-                  fit: BoxFit.cover,
+                Center(
+                  child: Image.network(
+                    model.media![0].mediaMetadata?[0].url ?? '',
+                    height: 150,
+                    width: 150,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               const SizedBox(height: 20),
               Text(
                 model.abstract ?? '',
-                style: const TextStyle(fontSize: 16),
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
               ),
             ],
           ),
