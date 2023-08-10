@@ -12,8 +12,18 @@ dependencies:
 
   # A powerful HTTP networking package, supports Interceptors, Aborting and canceling a request, Custom adapters, Transformers, etc.
   dio: ^5.3.2
+  
+  #A wrapper around InheritedWidget to make them easier to use and more reusable.  
+  provider: ^6.0.5
+
+  #A flutter plugin for adapting screen and font size.Guaranteed to look good on different models
+  flutter_screenutil: ^5.8.4
 
   cupertino_icons: ^1.0.2
+
+  #A Flutter package to use fonts from fonts.google.com
+  google_fonts: ^5.1.0
+
 
 dev_dependencies:
   flutter_test:

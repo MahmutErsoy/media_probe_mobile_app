@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'post_model.dart';
+import '../models/NY_times_model.dart';
 
 class PostService {
   final Dio _dio;
   PostService() : _dio = Dio(BaseOptions(baseUrl: 'https://api.nytimes.com/svc/mostpopular/v2/viewed/7.json?api-key='));
 
-  Future<List<PostModel>?> fetchPostItems() async {
+  Future<List<Result>?> fetchPostItems() async {
     try {
       final response = await _dio.get('i5U0k05a2ZwXJKoID0P5zLeKxkEvkpBG');
 
@@ -17,7 +17,7 @@ class PostService {
         if (_datas.containsKey('results')) {
           final results = _datas['results'];
 
-          return (results as List<dynamic>).map((e) => PostModel.fromJson(e)).toList();
+          return (results as List<dynamic>).map((e) => Result.fromJson(e)).toList();
         }
       }
     } on DioException catch (exception) {

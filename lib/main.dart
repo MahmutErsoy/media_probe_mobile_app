@@ -1,19 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:media_probe_mobile_app/views/home/home_view.dart';
+import 'package:provider/provider.dart';
+import 'core/constants/app_constants.dart';
+import 'core/extension/provider_manager.dart';
+import 'core/extension/theme_provider.dart';
 
-import 'service/service_get_view.dart';
+Future<void> main() async {
+  Provider.debugCheckInvalidValueType = null;
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: ServiceGetView(),
+    return MultiProvider(
+      providers: [...ProviderManager.instance.singleProvider],
+      child: ScreenUtilInit(
+        designSize: Size(AppConstants.designSize.width, AppConstants.designSize.height),
+        builder: (context, child) => ChangeNotifierProvider(
+          create: (context) => ThemeProvider(),
+          builder: (context, _) {
+            final themeProvider = Provider.of<ThemeProvider>(context);
+            return MaterialApp(
+              themeMode: themeProvider.themeMode,
+              theme: MyThemes.lightTheme,
+              darkTheme: MyThemes.darkTheme,
+              debugShowCheckedModeBanner: false,
+              home: const HomeView(),
+            );
+          },
+        ),
+      ),
     );
   }
 }

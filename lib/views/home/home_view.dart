@@ -1,17 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:media_probe_mobile_app/service/post_service.dart';
-import 'post_model.dart';
+import 'package:provider/provider.dart';
+import '../../core/base/base_view.dart';
+import '../../core/models/NY_times_model.dart';
+import '../../core/repository/NY_times_repository.dart';
+import '../detail/detail_view.dart';
+import 'home_view_model.dart';
 
-class ServiceGetView extends StatefulWidget {
-  const ServiceGetView({super.key});
+class HomeView extends StatefulWidget {
+  const HomeView({Key? key}) : super(key: key);
 
   @override
-  State<ServiceGetView> createState() => _ServiceGetViewState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
-class _ServiceGetViewState extends State<ServiceGetView> {
-  List<PostModel>? _items;
+class _HomeViewState extends State<HomeView> {
+  List<Result>? _items;
   late final Dio _dio;
   final _baseUrl = 'https://api.nytimes.com/svc/mostpopular/v2/viewed/7.json?api-key=';
 
@@ -46,57 +50,75 @@ class _ServiceGetViewState extends State<ServiceGetView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          leading: const Icon(
-            Icons.menu,
-            size: 30,
+    return BaseView<HomeViewModel>(
+      viewModel: Provider.of<HomeViewModel>(context, listen: false),
+      onModelReady: (model) async {
+        model.setContext(context);
+        await model.init();
+      },
+      pageBuilder: (context, viewModel, _) => Scaffold(
+          appBar: AppBar(
+            leading: const Icon(
+              Icons.menu,
+              size: 30,
+            ),
+            title: Text(
+              "NY Times Most Popular",
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            actions: const [
+              Icon(
+                Icons.search,
+                size: 30,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Icon(
+                Icons.more_vert,
+                size: 30,
+              ),
+            ],
+            backgroundColor: Colors.tealAccent[400],
           ),
-          title: const Text("NY Times Most Popular"),
-          actions: const [
-            Icon(
-              Icons.search,
-              size: 30,
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Icon(
-              Icons.more_vert,
-              size: 30,
-            ),
-          ],
-          backgroundColor: Colors.tealAccent[400],
-        ),
-        backgroundColor: Colors.white,
-        body: _items == null
-            ? const Placeholder()
-            : ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                itemCount: _items?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return _PostCard(model: _items?[index]);
-                },
-              ));
+          backgroundColor: Colors.white,
+          body: _items == null
+              ? const Placeholder()
+              : ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  itemCount: _items?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    return _PostCard(model: _items?[index]);
+                  },
+                )),
+    );
   }
 }
 
 class _PostCard extends StatelessWidget {
   const _PostCard({
     super.key,
-    required PostModel? model,
+    required Result? model,
   }) : _model = model;
 
-  final PostModel? _model;
+  final Result? _model;
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.blue[700],
       margin: const EdgeInsets.only(
         bottom: 20,
       ),
       child: ListTile(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailView(model: _model!),
+              ),
+            );
+          },
           leading: const CircleAvatar(
             backgroundColor: Colors.grey,
           ),

@@ -1,4 +1,4 @@
-class PostModel {
+class Result {
   String? uri;
   String? url;
   int? id;
@@ -23,7 +23,7 @@ class PostModel {
   List<Media>? media;
   int? etaId;
 
-  PostModel(
+  Result(
       {this.uri,
       this.url,
       this.id,
@@ -47,7 +47,7 @@ class PostModel {
       this.media,
       this.etaId});
 
-  PostModel.fromJson(Map<String, dynamic> json) {
+  Result.fromJson(Map<String, dynamic> json) {
     uri = json['uri'];
     url = json['url'];
     id = json['id'];
