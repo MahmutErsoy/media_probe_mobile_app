@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/base/base_view.dart';
+import '../../core/components/global_widgets/app_bar.dart';
 import '../../core/models/NY_times_model.dart';
 import 'detail_view_model.dart';
 
@@ -18,10 +19,7 @@ class DetailView extends StatelessWidget {
         await model.init();
       },
       pageBuilder: (context, viewModel, _) => Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.tealAccent[400],
-          title: const Text("Article Detail"),
-        ),
+        appBar: CustomAppBar(),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
