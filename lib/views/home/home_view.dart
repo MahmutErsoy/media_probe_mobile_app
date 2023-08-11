@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:media_probe_mobile_app/core/components/global_widgets/bottom_bar.dart';
 import 'package:provider/provider.dart';
 import '../../core/base/base_view.dart';
 import '../../core/models/NY_times_model.dart';
 import '../../core/repository/ny_times_repository.dart';
+import '../favorite/favorite_view.dart';
 import 'home_view_model.dart';
 import 'home_widget.dart';
 
@@ -44,6 +46,13 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
+  int _currentIndex = 0; // Seçili alt gezinme çubuğu indeksi
+
+  final List<Widget> _pages = [
+    HomeView(), // Anasayfa
+    FavoriteView(), // Favori sayfası
+  ];
+
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeViewModel>(
@@ -77,16 +86,26 @@ class _HomeViewState extends State<HomeView> {
             ],
             backgroundColor: Colors.tealAccent[400],
           ),
+          bottomNavigationBar: CustomBottomNavigationBar(
+            currentIndex: _currentIndex,
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+          ),
           backgroundColor: Colors.white,
           body: _items == null
               ? const Placeholder()
-              : ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  itemCount: _items?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    return PostCard(model: _items?[index]);
-                  },
-                )),
+              : _currentIndex == 0
+                  ? ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      itemCount: _items?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        return PostCard(model: _items?[index]);
+                      },
+                    )
+                  : _pages[_currentIndex]),
     );
   }
 }
