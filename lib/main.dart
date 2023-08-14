@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:media_probe_mobile_app/views/favorite/favorite_view_model.dart';
 import 'package:media_probe_mobile_app/views/home/home_view.dart';
 import 'package:provider/provider.dart';
 import 'core/constants/app_constants.dart';
@@ -25,7 +26,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [...ProviderManager.instance.singleProvider],
+      providers: [
+        ...ProviderManager.instance.singleProvider,
+        ChangeNotifierProvider(create: (context) => FavoriteModel()),
+      ],
       child: ScreenUtilInit(
         designSize: Size(AppConstants.designSize.width, AppConstants.designSize.height),
         builder: (context, child) => ChangeNotifierProvider(

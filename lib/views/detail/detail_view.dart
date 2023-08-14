@@ -53,7 +53,7 @@ class DetailView extends StatelessWidget {
               if (model.media != null && model.media!.isNotEmpty)
                 Center(
                   child: Image.network(
-                    model.media![0].mediaMetadata?[0].url ?? '',
+                    model.media![0].mediaMetadata?[0].url ?? 'şş',
                     height: 150,
                     width: 150,
                     fit: BoxFit.cover,

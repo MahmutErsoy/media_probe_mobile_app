@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:media_probe_mobile_app/core/components/global_widgets/bottom_bar.dart';
 import 'package:provider/provider.dart';
 import '../../core/base/base_view.dart';
 import '../../core/models/NY_times_model.dart';
 import '../../core/repository/ny_times_repository.dart';
+import '../detail/detail_view.dart';
 import '../favorite/favorite_view.dart';
+import '../favorite/favorite_view_model.dart';
 import 'home_view_model.dart';
-import 'home_widget.dart';
+
+part 'home_widget.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -46,11 +50,11 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
-  int _currentIndex = 0; // Seçili alt gezinme çubuğu indeksi
+  int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    HomeView(), // Anasayfa
-    FavoriteView(), // Favori sayfası
+    HomeView(),
+    FavoriteView(),
   ];
 
   @override
@@ -62,30 +66,7 @@ class _HomeViewState extends State<HomeView> {
         await model.init();
       },
       pageBuilder: (context, viewModel, _) => Scaffold(
-          appBar: AppBar(
-            leading: const Icon(
-              Icons.menu,
-              size: 30,
-            ),
-            title: Text(
-              "NY Times Most Popular",
-              style: Theme.of(context).textTheme.headline2,
-            ),
-            actions: const [
-              Icon(
-                Icons.search,
-                size: 30,
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              Icon(
-                Icons.more_vert,
-                size: 30,
-              ),
-            ],
-            backgroundColor: Colors.tealAccent[400],
-          ),
+          appBar: HomeAppBar(viewModel: viewModel),
           bottomNavigationBar: CustomBottomNavigationBar(
             currentIndex: _currentIndex,
             onTap: (index) {
@@ -102,10 +83,23 @@ class _HomeViewState extends State<HomeView> {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       itemCount: _items?.length ?? 0,
                       itemBuilder: (context, index) {
-                        return PostCard(model: _items?[index]);
+                        return PostCard(
+                          model: _items?[index],
+                          addToFavorites: addToFavorites,
+                        );
                       },
                     )
                   : _pages[_currentIndex]),
     );
+  }
+
+  void addToFavorites(Result item) {
+    final favoriteModel = Provider.of<FavoriteModel>(context, listen: false);
+
+    if (!favoriteModel.favoriteItems.contains(item)) {
+      favoriteModel.addToFavorites(item);
+    } else {
+      favoriteModel.removeFromFavorites(item);
+    }
   }
 }
