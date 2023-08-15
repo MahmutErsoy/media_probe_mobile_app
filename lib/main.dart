@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:media_probe_mobile_app/views/favorite/favorite_view_model.dart';
 import 'package:media_probe_mobile_app/views/home/home_view.dart';
 import 'package:provider/provider.dart';
+import 'core/base/base_view_model.dart';
 import 'core/constants/app_constants.dart';
 import 'core/extension/provider_manager.dart';
 import 'core/extension/theme_provider.dart';

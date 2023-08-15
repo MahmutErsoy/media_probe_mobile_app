@@ -19,7 +19,7 @@ class DetailView extends StatelessWidget {
         await model.init();
       },
       pageBuilder: (context, viewModel, _) => Scaffold(
-        appBar: CustomAppBar(),
+        appBar: const CustomAppBar(),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(

@@ -74,32 +74,11 @@ class PostCard extends StatelessWidget {
   }
 }
 
-/*Widget searchTextField(HomeViewModel viewModel) {
-  return TextField(
-    onChanged: (String s) {
-      viewModel.onChangeTextForm(s);
-    },
-    autofocus: true,
-    cursorColor: Colors.white,
-    style: const TextStyle(
-      color: Colors.white,
-      fontSize: 20,
-    ),
-    textInputAction: TextInputAction.search,
-    decoration: const InputDecoration(
-      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-      hintText: 'Search',
-      hintStyle: TextStyle(
-        color: Colors.white60,
-        fontSize: 20,
-      ),
-    ),
-  );
-}*/
-
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const HomeAppBar({super.key, required this.viewModel});
+  const HomeAppBar({
+    super.key,
+    required this.viewModel,
+  });
 
   final HomeViewModel viewModel;
 
@@ -114,13 +93,11 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         leading: const Icon(Icons.menu),
         actions: [
           IconButton(
-              icon: const Icon(
-                Icons.search,
-              ),
-              onPressed: () {
-                // viewModel.changeSearchBoolean(true);
-                // viewModel.clearSearchList();
-              }),
+            icon: const Icon(
+              Icons.search,
+            ),
+            onPressed: () {},
+          ),
           const Icon(
             Icons.more_vert,
           ),
