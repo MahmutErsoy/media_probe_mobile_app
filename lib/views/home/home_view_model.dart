@@ -51,4 +51,20 @@ class HomeViewModel extends BaseViewModel {
       });
     }
   }
+
+  void search(String query) {
+    searchQuery = query;
+    if (query.isEmpty) {
+      filteredItems = List.from(items!); // Tüm öğeleri ekranda göster
+    } else {
+      filteredItems = items!.where((item) {
+        return item.abstract!.toLowerCase().contains(query.toLowerCase());
+      }).toList();
+    }
+    notifyListeners();
+  }
+}
+
+class MySearchController {
+  final TextEditingController searchController = TextEditingController();
 }

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'home_view.dart';
 
 class PostCard extends StatelessWidget {
@@ -74,36 +75,66 @@ class PostCard extends StatelessWidget {
   }
 }
 
-class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const HomeAppBar({
+class HomeAppBar extends StatefulWidget implements PreferredSizeWidget {
+  HomeAppBar({
     super.key,
     required this.viewModel,
+    required this.mySearchController,
   });
 
   final HomeViewModel viewModel;
+  final MySearchController mySearchController;
+
+  @override
+  State<HomeAppBar> createState() => _HomeAppBarState();
+
+  @override
+  Size get preferredSize => Size.fromHeight(50.sp);
+}
+
+class _HomeAppBarState extends State<HomeAppBar> {
+  bool _isSearching = false;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        backgroundColor: Colors.tealAccent[400],
-        title: Text(
-          "NY Times Most Popular",
-          style: Theme.of(context).textTheme.headline2,
-        ),
-        leading: const Icon(Icons.menu),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.search,
+      backgroundColor: Colors.tealAccent[400],
+      title: _isSearching
+          ? TextField(
+              controller: widget.mySearchController.searchController,
+              onChanged: (query) {
+                widget.viewModel.search(query);
+              },
+              style: TextStyle(color: Colors.black, fontSize: 20),
+              decoration: InputDecoration(
+                hintText: "Search...",
+                border: InputBorder.none,
+              ),
+            )
+          : Text(
+              "NY Times Most Popular",
+              style: Theme.of(context).textTheme.headline2,
             ),
-            onPressed: () {},
+      leading: const Icon(Icons.menu),
+      actions: [
+        IconButton(
+          icon: const Icon(
+            Icons.search,
           ),
-          const Icon(
-            Icons.more_vert,
-          ),
-        ]);
+          onPressed: () {
+            setState(() {
+              _isSearching = !_isSearching;
+              if (!_isSearching) {
+                widget.mySearchController.searchController.clear();
+                widget.viewModel.search('');
+              }
+            });
+          },
+        ),
+        const Icon(
+          Icons.more_vert,
+        ),
+      ],
+    );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(50.sp);
 }

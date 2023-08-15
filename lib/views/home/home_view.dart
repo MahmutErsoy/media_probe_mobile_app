@@ -18,6 +18,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  final MySearchController mySearchController = MySearchController();
+
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeViewModel>(
@@ -27,32 +29,50 @@ class _HomeViewState extends State<HomeView> {
         await model.init();
       },
       pageBuilder: (context, viewModel, _) => Scaffold(
-          appBar: HomeAppBar(
-            viewModel: viewModel,
-          ),
-          bottomNavigationBar: CustomBottomNavigationBar(
-            currentIndex: viewModel.currentIndex,
-            onTap: (index) {
-              setState(() {
-                viewModel.currentIndex = index;
-              });
-            },
-          ),
-          backgroundColor: Colors.white,
-          body: viewModel.items == null
-              ? const Center(child: CircularProgressIndicator())
-              : viewModel.currentIndex == 0
-                  ? ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      itemCount: viewModel.items?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        return PostCard(
-                          model: viewModel.items?[index],
-                          addToFavorites: viewModel.addToFavorites,
-                        );
-                      },
-                    )
-                  : viewModel.pages[viewModel.currentIndex]),
+        appBar: HomeAppBar(
+          viewModel: viewModel,
+          mySearchController: mySearchController,
+        ),
+        bottomNavigationBar: CustomBottomNavigationBar(
+          currentIndex: viewModel.currentIndex,
+          onTap: (index) {
+            setState(() {
+              viewModel.currentIndex = index;
+            });
+          },
+        ),
+        backgroundColor: Colors.white,
+        body: viewModel.items == null
+            ? const Center(child: CircularProgressIndicator())
+            : viewModel.currentIndex == 0 && !viewModel.searchQuery.isNotEmpty
+                ? ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    itemCount: viewModel.items?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return PostCard(
+                        model: viewModel.items?[index],
+                        addToFavorites: viewModel.addToFavorites,
+                      );
+                    },
+                  )
+                : Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: viewModel.filteredItems.length,
+                          itemBuilder: (context, index) {
+                            return PostCard(
+                              model: viewModel.filteredItems[index],
+                              addToFavorites: viewModel.addToFavorites,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+
+        //: viewModel.pages[viewModel.currentIndex]
+      ),
     );
   }
 }
