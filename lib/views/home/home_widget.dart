@@ -16,7 +16,7 @@ class PostCard extends StatelessWidget {
     final favoriteModel = Provider.of<FavoriteModel>(context);
 
     return Card(
-      color: Colors.blue[700],
+      color: Colors.blueAccent,
       margin: const EdgeInsets.only(
         bottom: 20,
       ),
@@ -29,8 +29,17 @@ class PostCard extends StatelessWidget {
             ),
           );
         },
-        leading: const CircleAvatar(
-          backgroundColor: Colors.grey,
+        leading: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            CircleAvatar(
+              backgroundImage: model?.media != null && model!.media!.isNotEmpty
+                  ? NetworkImage(
+                      model!.media![0].mediaMetadata?[0].url ?? '',
+                    )
+                  : null,
+            ),
+          ],
         ),
         title: Text(
           model?.abstract ?? 'aa',
@@ -61,14 +70,19 @@ class PostCard extends StatelessWidget {
             ],
           ),
         ),
-        trailing: IconButton(
-          icon: Icon(
-            favoriteModel.favoriteItems.contains(model) ? Icons.favorite : Icons.favorite_border,
-            color: favoriteModel.favoriteItems.contains(model) ? Colors.red : null,
-          ),
-          onPressed: () {
-            addToFavorites(model!);
-          },
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            IconButton(
+              icon: Icon(
+                favoriteModel.favoriteItems.contains(model) ? Icons.favorite : Icons.favorite_border,
+                color: favoriteModel.favoriteItems.contains(model) ? Colors.red : null,
+              ),
+              onPressed: () {
+                addToFavorites(model!);
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -76,7 +90,7 @@ class PostCard extends StatelessWidget {
 }
 
 class HomeAppBar extends StatefulWidget implements PreferredSizeWidget {
-  HomeAppBar({
+  const HomeAppBar({
     super.key,
     required this.viewModel,
     required this.mySearchController,
@@ -94,6 +108,7 @@ class HomeAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _HomeAppBarState extends State<HomeAppBar> {
   bool _isSearching = false;
+  bool showCloseButton = false;
 
   @override
   Widget build(BuildContext context) {
@@ -105,9 +120,10 @@ class _HomeAppBarState extends State<HomeAppBar> {
               onChanged: (query) {
                 widget.viewModel.search(query);
               },
-              style: TextStyle(color: Colors.black, fontSize: 20),
-              decoration: InputDecoration(
+              style: const TextStyle(color: Colors.black, fontSize: 20),
+              decoration: const InputDecoration(
                 hintText: "Search...",
+                hintStyle: TextStyle(color: Colors.white),
                 border: InputBorder.none,
               ),
             )
@@ -115,15 +131,20 @@ class _HomeAppBarState extends State<HomeAppBar> {
               "NY Times Most Popular",
               style: Theme.of(context).textTheme.headline2,
             ),
-      leading: const Icon(Icons.menu),
+      leading: const Icon(
+        Icons.menu,
+        color: Colors.black,
+      ),
       actions: [
         IconButton(
           icon: const Icon(
             Icons.search,
+            color: Colors.black,
           ),
           onPressed: () {
             setState(() {
               _isSearching = !_isSearching;
+              showCloseButton = _isSearching;
               if (!_isSearching) {
                 widget.mySearchController.searchController.clear();
                 widget.viewModel.search('');
@@ -131,9 +152,17 @@ class _HomeAppBarState extends State<HomeAppBar> {
             });
           },
         ),
-        const Icon(
-          Icons.more_vert,
-        ),
+        if (_isSearching)
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  _isSearching = false;
+                  showCloseButton = false;
+                  widget.mySearchController.searchController.clear();
+                  widget.viewModel.search('');
+                });
+              },
+              icon: const Icon(Icons.close)),
       ],
     );
   }
