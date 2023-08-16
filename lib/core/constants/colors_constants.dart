@@ -13,6 +13,9 @@ class ColorConstants {
   Color texasRose = const Color(0xffFDAE57);
   Color codGray = const Color(0xff090909);
   Color transparentBlack = const Color.fromRGBO(0, 0, 0, 0.4);
+  Color tealAccent = const Color.fromARGB(255, 29, 233, 182);
+  Color blueAccent = const Color.fromARGB(255, 68, 138, 255);
+  Color red = const Color.fromARGB(255, 244, 67, 54);
 
   ColorConstants._init();
 }

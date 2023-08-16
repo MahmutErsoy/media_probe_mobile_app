@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:media_probe_mobile_app/core/constants/colors_constants.dart';
+
+import '../../constants/string_constants.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -13,9 +16,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.black87,
-      backgroundColor: Colors.tealAccent[400],
+      selectedItemColor: ColorConstants.instance.white,
+      unselectedItemColor: ColorConstants.instance.black,
+      backgroundColor: ColorConstants.instance.tealAccent,
       currentIndex: currentIndex,
       onTap: onTap,
       items: const [
@@ -24,14 +27,14 @@ class CustomBottomNavigationBar extends StatelessWidget {
             Icons.home,
             size: 25,
           ),
-          label: 'Ana Sayfa',
+          label: StringConstants.home,
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.favorite,
             size: 22,
           ),
-          label: 'Favoriler',
+          label: StringConstants.favorites,
         ),
       ],
     );

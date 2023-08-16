@@ -16,18 +16,13 @@ class PostCard extends StatelessWidget {
     final favoriteModel = Provider.of<FavoriteModel>(context);
 
     return Card(
-      color: Colors.blueAccent,
+      color: ColorConstants.instance.blueAccent,
       margin: const EdgeInsets.only(
         bottom: 20,
       ),
       child: ListTile(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetailView(model: model!),
-            ),
-          );
+          goToView(context, DetailView(model: model!));
         },
         leading: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -42,7 +37,7 @@ class PostCard extends StatelessWidget {
           ],
         ),
         title: Text(
-          model?.abstract ?? 'aa',
+          model?.abstract ?? StringConstants.notFound,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
@@ -51,7 +46,7 @@ class PostCard extends StatelessWidget {
           child: Wrap(
             children: [
               Text(
-                model?.byline ?? 'kim yazdi la bunu',
+                model?.byline ?? StringConstants.notFound,
               ),
               const SizedBox(
                 height: 30,
@@ -63,7 +58,7 @@ class PostCard extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    model?.publishedDate ?? 'aa',
+                    model?.publishedDate ?? StringConstants.notFound,
                   ),
                 ],
               ),
@@ -76,7 +71,7 @@ class PostCard extends StatelessWidget {
             IconButton(
               icon: Icon(
                 favoriteModel.favoriteItems.contains(model) ? Icons.favorite : Icons.favorite_border,
-                color: favoriteModel.favoriteItems.contains(model) ? Colors.red : null,
+                color: favoriteModel.favoriteItems.contains(model) ? ColorConstants.instance.red : null,
               ),
               onPressed: () {
                 addToFavorites(model!);
@@ -113,33 +108,33 @@ class _HomeAppBarState extends State<HomeAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.tealAccent[400],
+      backgroundColor: ColorConstants.instance.tealAccent,
       title: _isSearching
           ? TextField(
               controller: widget.mySearchController.searchController,
               onChanged: (query) {
                 widget.viewModel.search(query);
               },
-              style: const TextStyle(color: Colors.black, fontSize: 20),
-              decoration: const InputDecoration(
-                hintText: "Search...",
-                hintStyle: TextStyle(color: Colors.white),
+              style: TextStyle(color: ColorConstants.instance.black, fontSize: 20),
+              decoration: InputDecoration(
+                hintText: StringConstants.search,
+                hintStyle: TextStyle(color: ColorConstants.instance.white),
                 border: InputBorder.none,
               ),
             )
           : Text(
-              "NY Times Most Popular",
+              StringConstants.mostPopular,
               style: Theme.of(context).textTheme.headline2,
             ),
-      leading: const Icon(
+      leading: Icon(
         Icons.menu,
-        color: Colors.black,
+        color: ColorConstants.instance.black,
       ),
       actions: [
         IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.search,
-            color: Colors.black,
+            color: ColorConstants.instance.black,
           ),
           onPressed: () {
             setState(() {
@@ -162,7 +157,10 @@ class _HomeAppBarState extends State<HomeAppBar> {
                   widget.viewModel.search('');
                 });
               },
-              icon: const Icon(Icons.close)),
+              icon: Icon(
+                Icons.close,
+                color: ColorConstants.instance.black,
+              )),
       ],
     );
   }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:media_probe_mobile_app/core/components/global_widgets/bottom_bar.dart';
+import 'package:media_probe_mobile_app/core/components/global_widgets/goToView.dart';
 import 'package:provider/provider.dart';
 import '../../core/base/base_view.dart';
 import '../../core/base/base_view_model.dart';
+import '../../core/constants/colors_constants.dart';
+import '../../core/constants/string_constants.dart';
 import '../../core/models/NY_times_model.dart';
 import '../detail/detail_view.dart';
 import 'home_view_model.dart';
@@ -41,7 +44,7 @@ class _HomeViewState extends State<HomeView> {
               });
             },
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: ColorConstants.instance.white,
           body: viewModel.items == null
               ? const Center(child: CircularProgressIndicator())
               : viewModel.currentIndex == 0 && !viewModel.searchQuery.isNotEmpty
@@ -71,10 +74,7 @@ class _HomeViewState extends State<HomeView> {
                             ),
                           ],
                         )
-                      : viewModel.pages[viewModel.currentIndex]
-
-          //: viewModel.pages[viewModel.currentIndex]
-          ),
+                      : viewModel.pages[viewModel.currentIndex]),
     );
   }
 }

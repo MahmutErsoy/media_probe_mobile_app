@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/base/base_view.dart';
 import '../../core/components/global_widgets/app_bar.dart';
+import '../../core/constants/colors_constants.dart';
+import '../../core/constants/string_constants.dart';
 import '../../core/models/NY_times_model.dart';
 import 'detail_view_model.dart';
 
@@ -27,33 +29,33 @@ class DetailView extends StatelessWidget {
             children: [
               Text(
                 model.title ?? '',
-                style: const TextStyle(
-                  color: Colors.black,
+                style: TextStyle(
+                  color: ColorConstants.instance.black,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 10),
               Text(
-                "By: ${model.byline ?? 'Unknown'}",
-                style: const TextStyle(
+                "By: ${model.byline ?? StringConstants.unknown}",
+                style: TextStyle(
                   fontSize: 16,
-                  color: Colors.black,
+                  color: ColorConstants.instance.black,
                 ),
               ),
               const SizedBox(height: 10),
               Text(
                 "Published Date: ${model.publishedDate ?? ''}",
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
-                  color: Colors.black,
+                  color: ColorConstants.instance.black,
                 ),
               ),
               const SizedBox(height: 20),
               if (model.media != null && model.media!.isNotEmpty)
                 Center(
                   child: Image.network(
-                    model.media![0].mediaMetadata?[0].url ?? 'şş',
+                    model.media![0].mediaMetadata?[0].url ?? StringConstants.notFound,
                     height: 150,
                     width: 150,
                     fit: BoxFit.cover,
@@ -62,9 +64,9 @@ class DetailView extends StatelessWidget {
               const SizedBox(height: 20),
               Text(
                 model.abstract ?? '',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
-                  color: Colors.black,
+                  color: ColorConstants.instance.black,
                 ),
               ),
             ],

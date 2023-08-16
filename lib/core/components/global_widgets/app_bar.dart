@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../constants/colors_constants.dart';
+import '../../constants/string_constants.dart';
+
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
 
   @override
   Widget build(context) {
     return AppBar(
-      backgroundColor: Colors.tealAccent[400],
+      backgroundColor: ColorConstants.instance.tealAccent,
       elevation: 0,
       centerTitle: true,
       toolbarHeight: 50.sp,
@@ -18,11 +21,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Icon(
           Icons.arrow_back,
           size: 40.h,
-          color: Colors.white,
+          color: ColorConstants.instance.white,
         ),
       ),
       title: Text(
-        "Article Detail",
+        StringConstants.articleDetail,
         style: Theme.of(context).textTheme.headline2,
       ),
     );
